@@ -278,6 +278,7 @@
     setTimeout(function () { var w = $(".wipe"); if (w && w.getBoundingClientRect().top <= 0 && w.getBoundingClientRect().bottom >= window.innerHeight - 1 && !(window.gsap && gsap.isTweening(w))) w.style.visibility = "hidden"; }, 4000);
   });
 })();
+
 /* ===== Business details: edit only this block ===== */
 (function () {
   var BIZ = {
@@ -310,13 +311,20 @@
   p.style.cssText = "flex:0 0 100%;width:100%;text-align:center;font-size:.8em;line-height:1.5;margin:1em 0 0;opacity:.85";
   p.appendChild(document.createTextNode(parts.join(" · ")));
 
-  if (lang === "de") {
+  var links = {
+    en: [["Privacy", "privacy.html"]],
+    nl: [["Privacy", "nl/privacy.html"]],
+    de: [["Impressum", "de/impressum.html"], ["Datenschutz", "de/datenschutz.html"]]
+  }[lang] || [["Privacy", "privacy.html"]];
+
+  links.forEach(function (l) {
     p.appendChild(document.createTextNode(" · "));
     var a = document.createElement("a");
-    a.href = base + "de/impressum.html";
-    a.textContent = "Impressum";
+    a.href = base + l[1];
+    a.textContent = l[0];
+    a.style.cssText = "color:inherit;text-decoration:underline";
     p.appendChild(a);
-  }
+  });
 
   foot.appendChild(p);
 })();
