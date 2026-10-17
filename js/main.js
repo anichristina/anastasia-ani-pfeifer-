@@ -278,3 +278,45 @@
     setTimeout(function () { var w = $(".wipe"); if (w && w.getBoundingClientRect().top <= 0 && w.getBoundingClientRect().bottom >= window.innerHeight - 1 && !(window.gsap && gsap.isTweening(w))) w.style.visibility = "hidden"; }, 4000);
   });
 })();
+/* ===== Business details: edit only this block ===== */
+(function () {
+  var BIZ = {
+    name: "Anastasia Pfeifer",
+    street: "Schoonzichtlaan 136 D",
+    city: "2015 CV Haarlem",
+    email: "anislenses@gmx.net",
+    kvk: "97041548",
+    btw: "" // add your VAT number here if you get one, e.g. "NL123456789B01"
+  };
+
+  var foot = document.querySelector("footer.foot");
+  if (!foot) return;
+
+  var lang = (document.documentElement.lang || "en").slice(0, 2);
+  var base = document.documentElement.getAttribute("data-base") || "";
+  var country = { en: "The Netherlands", nl: "Nederland", de: "Niederlande" }[lang] || "The Netherlands";
+  var vatLabel = { en: "VAT", nl: "BTW-id", de: "USt-IdNr." }[lang] || "VAT";
+
+  var parts = [
+    BIZ.name,
+    BIZ.street + ", " + BIZ.city + ", " + country,
+    BIZ.email,
+    "KVK " + BIZ.kvk
+  ];
+  if (BIZ.btw) parts.push(vatLabel + " " + BIZ.btw);
+
+  var p = document.createElement("p");
+  p.className = "legal";
+  p.style.cssText = "flex:0 0 100%;width:100%;text-align:center;font-size:.8em;line-height:1.5;margin:1em 0 0;opacity:.85";
+  p.appendChild(document.createTextNode(parts.join(" · ")));
+
+  if (lang === "de") {
+    p.appendChild(document.createTextNode(" · "));
+    var a = document.createElement("a");
+    a.href = base + "de/impressum.html";
+    a.textContent = "Impressum";
+    p.appendChild(a);
+  }
+
+  foot.appendChild(p);
+})();
